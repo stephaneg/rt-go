@@ -34,8 +34,8 @@ func NewVector(x, y, z float64) Tuple {
 	return NewTuple(x, y, z, 0.0)
 }
 
-func FuzzyEqTuple(t1, t2 Tuple) bool {
-	return FuzzyEqf64(t1.X, t2.X) && FuzzyEqf64(t1.Y, t2.Y) && FuzzyEqf64(t1.Z, t2.Z) && FuzzyEqf64(t1.W, t2.W)
+func (t Tuple) FuzzyEqTuple(other Tuple) bool {
+	return FuzzyEqf64(t.X, other.X) && FuzzyEqf64(t.Y, other.Y) && FuzzyEqf64(t.Z, other.Z) && FuzzyEqf64(t.W, other.W)
 }
 
 func (t Tuple) AddTuple(other Tuple) Tuple {
