@@ -28,6 +28,7 @@ func main() {
 	c.Write(x, y, color)
 
 	for current.Position.Y > 0.0 {
+		fmt.Printf("position : %v", current.Position.Y)
 		current = dynamic.Tick(env, &projectile)
 
 		x = uint(current.Position.X)
