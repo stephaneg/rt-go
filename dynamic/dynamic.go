@@ -19,5 +19,6 @@ func NewEnvironment(gravity core.Tuple, wind core.Tuple) Environment {
 }
 
 func Tick(env Environment, proj *Projectile) Projectile {
-	return Projectile{proj.Position.AddTuple(proj.Velocity), proj.Velocity.AddTuple(env.Gravity).AddTuple(env.Wind)}
+	p := Projectile{proj.Position.AddTuple(proj.Velocity), proj.Velocity.AddTuple(env.Gravity).AddTuple(env.Wind)}
+	return p
 }
