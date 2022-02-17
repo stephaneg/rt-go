@@ -23,20 +23,20 @@ func main() {
 	var current dynamic.Projectile = projectile
 	var x, y uint
 	var current_y float64
-	x = uint(current.Position.X)
-	y = c.Height - uint(current.Position.Y)
+	x = uint(current.Position.X())
+	y = c.Height - uint(current.Position.Y())
 
 	c.Write(x, y, color)
 
-	current_y = current.Position.Y
+	current_y = current.Position.Y()
 
 	for current_y > 0.0 {
 		current = dynamic.Tick(env, &current)
-		current_y = current.Position.Y
+		current_y = current.Position.Y()
 
-		x = uint(current.Position.X)
-		y = c.Height - uint(current.Position.Y)
-		if current.Position.Y > 0.0 {
+		x = uint(current.Position.X())
+		y = c.Height - uint(current.Position.Y())
+		if current.Position.Y() > 0.0 {
 			c.Write(x, y, color)
 		}
 
