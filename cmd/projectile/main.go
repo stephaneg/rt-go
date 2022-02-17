@@ -22,14 +22,19 @@ func main() {
 
 	var current dynamic.Projectile = projectile
 	var x, y uint
+	var current_y float64
 	x = uint(current.Position.X)
 	y = c.Height - uint(current.Position.Y)
 
 	c.Write(x, y, color)
 
-	for current.Position.Y > 0.0 {
-		fmt.Printf("position : %v", current.Position.Y)
+	current_y = current.Position.Y
+
+	for current_y > 0.0 {
+		fmt.Printf("position : %v \n", current.Position.Y)
 		current = dynamic.Tick(env, &projectile)
+		current_y = current.Position.Y
+		fmt.Printf("after a tick : %v \n", current.Position.Y)
 
 		x = uint(current.Position.X)
 		y = c.Height - uint(current.Position.Y)
