@@ -31,10 +31,8 @@ func main() {
 	current_y = current.Position.Y
 
 	for current_y > 0.0 {
-		fmt.Printf("position : %v \n", current.Position.Y)
 		current = dynamic.Tick(env, &current)
 		current_y = current.Position.Y
-		fmt.Printf("after a tick : %v \n", current.Position.Y)
 
 		x = uint(current.Position.X)
 		y = c.Height - uint(current.Position.Y)
