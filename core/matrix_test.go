@@ -89,3 +89,26 @@ func TestMatrix4xTuple(t *testing.T) {
 	}
 
 }
+
+func TestTransposeMatrix4(t *testing.T) {
+	a := NewMatrix4From([4][4]float64{
+		{0.0, 9.0, 3.0, 0.0},
+		{9.0, 8.0, 0.0, 8.0},
+		{1.0, 8.0, 5.0, 3.0},
+		{0.0, 0.0, 5.0, 8.0},
+	})
+
+	expected := NewMatrix4From([4][4]float64{
+		{0.0, 9.0, 1.0, 0.0},
+		{9.0, 8.0, 8.0, 0.0},
+		{3.0, 0.0, 5.0, 5.0},
+		{0.0, 8.0, 3.0, 8.0},
+	})
+
+	res := a.Transpose()
+
+	if !res.EqualMatrix4(expected) {
+		t.Errorf("error in matrix transposition")
+	}
+
+}

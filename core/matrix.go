@@ -57,3 +57,8 @@ func (m Matrix4) Matrix4xTuple(o Tuple) Tuple {
 	}
 	return ret
 }
+
+func (m Matrix4) Transpose() Matrix4 {
+	ret := NewMatrix4()
+	return ret
+}
