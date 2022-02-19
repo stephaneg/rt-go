@@ -262,3 +262,110 @@ func TestDeterminantMatrix4(t *testing.T) {
 	}
 
 }
+
+func TestInvertibleMatrix4(t *testing.T) {
+	m := NewMatrix4From([4][4]float64{
+		{6.0, 4.0, 4.0, 4.0},
+		{5.0, 5.0, 7.0, 6.0},
+		{4.0, -9.0, 3.0, -7.0},
+		{9.0, 1.0, 7.0, -6.0},
+	})
+
+	expectedDeterminant := -2120.0
+	expectedIsInvertible := true
+
+	resDeterminant := m.Determinant()
+	resIsInvertible := m.IsInvertible()
+
+	if !FuzzyEqf64(expectedDeterminant, resDeterminant) {
+		t.Errorf("error in computing determinant, expecting %v, get %v", expectedDeterminant, resDeterminant)
+	}
+
+	if resIsInvertible != expectedIsInvertible {
+		t.Errorf("error in computing IsInvertible expecting %v, get %v", expectedIsInvertible, resIsInvertible)
+	}
+
+}
+
+func TestNonInvertibleMatrix4(t *testing.T) {
+	m := NewMatrix4From([4][4]float64{
+		{-4.0, 2.0, -2.0, -3.0},
+		{9.0, 6.0, 2.0, 6.0},
+		{0.0, -5.0, 1.0, -5.0},
+		{0.0, 0.0, 0.0, 0.0},
+	})
+
+	expectedDeterminant := 0.0
+	expectedIsInvertible := false
+
+	resDeterminant := m.Determinant()
+	resIsInvertible := m.IsInvertible()
+
+	if !FuzzyEqf64(expectedDeterminant, resDeterminant) {
+		t.Errorf("error in computing determinant, expecting %v, get %v", expectedDeterminant, resDeterminant)
+	}
+
+	if resIsInvertible != expectedIsInvertible {
+		t.Errorf("error in computing IsInvertible expecting %v, get %v", expectedIsInvertible, resIsInvertible)
+	}
+
+}
+
+func TestInverseMatrix4(t *testing.T) {
+	a := NewMatrix4From([4][4]float64{
+		{-5.0, 2.0, 6.0, -8.0},
+		{1.0, -5.0, 1.0, 8.0},
+		{7.0, 7.0, -6.0, -7.0},
+		{1.0, -3.0, 7.0, 4.0},
+	})
+
+	expectedDeterminant := 532.0
+	expectedCofactorA23 := -160.0
+	expectedCofactorA32 := 105.0
+	expectedB32 := -160.0 / 532.0
+	expectedB23 := 105.0 / 532.0
+
+	b := NewMatrix4From([4][4]float64{
+		{0.21805, 0.45113, 0.24060, -0.04511},
+		{-0.80827, -1.45677, -0.44361, 0.52068},
+		{-0.07895, -0.22368, -0.05263, 0.19737},
+		{-0.52256, -0.81391, -0.30075, 0.30639},
+	})
+
+	resDeterminant := a.Determinant()
+	resCofactorA23 := a.Cofactor(2, 3)
+	resCofactorA32 := a.Cofactor(3, 2)
+
+	res, err := a.Inverse()
+	resB32 := res[3][2]
+	resB23 := res[2][3]
+
+	if err != nil {
+		t.Error("this matrix should be invertible")
+	}
+
+	if !FuzzyEqf64(expectedDeterminant, resDeterminant) {
+		t.Errorf("error in computing determinant, expecting %v, get %v", expectedDeterminant, resDeterminant)
+	}
+
+	if !FuzzyEqf64(expectedCofactorA23, resCofactorA23) {
+		t.Errorf("error in computing cofactor a in 2 3, expecting %v, get %v", expectedCofactorA23, resCofactorA23)
+	}
+
+	if !FuzzyEqf64(expectedCofactorA32, resCofactorA32) {
+		t.Errorf("error in computing cofactor a in 3 2, expecting %v, get %v", expectedCofactorA32, resCofactorA32)
+	}
+
+	if !FuzzyEqf64(expectedB32, resB32) {
+		t.Errorf("error in comparing b 3 2, expecting %v, get %v", expectedB32, resB32)
+	}
+
+	if !FuzzyEqf64(expectedB23, resB23) {
+		t.Errorf("error in comparing b 2 3, expecting %v, get %v", expectedB23, resB23)
+	}
+
+	if b.EqualMatrix(res) {
+		t.Errorf("inverse matrice %v is not equal to the expected one %v ", res, b)
+	}
+
+}

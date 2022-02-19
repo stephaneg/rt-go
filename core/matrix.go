@@ -1,5 +1,9 @@
 package core
 
+import (
+	"errors"
+)
+
 type Matrix4 [4][4]float64
 type Matrix3 [3][3]float64
 type Matrix2 [2][2]float64
@@ -239,4 +243,26 @@ func (m Matrix4) Determinant() float64 {
 	}
 
 	return res
+}
+
+// IsInvertible return true if the matrix is invertible
+func (m Matrix4) IsInvertible() bool {
+	return m.Determinant() != 0
+}
+
+func (m Matrix4) Inverse() (Matrix4, error) {
+	ret := NewMatrix4()
+	determinant := m.Determinant()
+	if !m.IsInvertible() {
+		return ret, errors.New("matrix is not invertible")
+	}
+
+	for i, row := range m {
+		for j := range row {
+			c := m.Cofactor(i, j)
+			ret[j][i] = c / determinant
+		}
+	}
+
+	return ret, nil
 }
