@@ -2,12 +2,11 @@ package core
 
 import (
 	"testing"
-	"fmt"
 )
 
 func TestToPPM(t *testing.T) {
 
-c := NewCanvas(10, 2)
+	c := NewCanvas(10, 2)
 	var i, j uint
 
 	for i = 0; i < 10; i++ {
@@ -16,7 +15,6 @@ c := NewCanvas(10, 2)
 		}
 	}
 
-	s := c.ToPPM()
-	fmt.Print(s)
+	c.ToPPM()
 
 }
