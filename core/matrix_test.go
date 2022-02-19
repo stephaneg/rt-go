@@ -447,3 +447,58 @@ func TestMultiplyMatrix4ByInverse(t *testing.T) {
 		t.Error("A * B * inverse(B) should be equal to A")
 	}
 }
+
+func TestMultiplyByTranslationMatrix(t *testing.T) {
+	m := NewMatrix4From([4][4]float64{
+		{1.0, 0.0, 0.0, 5.0},
+		{0.0, 1.0, 0.0, -3.0},
+		{0.0, 0.0, 1.0, 2.0},
+		{0.0, 0.0, 0.0, 1.0},
+	})
+
+	v := NewVector(-3, 4, 5)
+
+	res := m.DotTuple(v)
+
+	if !res.EqualTuple(v) {
+		t.Error("translation matrix x vector should be equals to vector")
+	}
+}
+
+func TestMultiplyPointByTranslationMatrix(t *testing.T) {
+	m := NewMatrix4From([4][4]float64{
+		{1.0, 0.0, 0.0, 5.0},
+		{0.0, 1.0, 0.0, -3.0},
+		{0.0, 0.0, 1.0, 2.0},
+		{0.0, 0.0, 0.0, 1.0},
+	})
+
+	v := NewPoint(-3, 4, 5)
+	expected := NewPoint(2, 1, 7)
+
+	res := m.DotTuple(v)
+
+	if !res.EqualTuple(expected) {
+		t.Error("translation matrix x point should be equals to a point")
+	}
+}
+
+func TestMultiplyPointByInvTranslationMatrix(t *testing.T) {
+	m := NewMatrix4From([4][4]float64{
+		{1.0, 0.0, 0.0, 5.0},
+		{0.0, 1.0, 0.0, -3.0},
+		{0.0, 0.0, 1.0, 2.0},
+		{0.0, 0.0, 0.0, 1.0},
+	})
+
+	inv, _ := m.Inverse()
+
+	v := NewPoint(-3, 4, 5)
+	expected := NewPoint(-8, 7, 3)
+
+	res := inv.DotTuple(v)
+
+	if !res.EqualTuple(expected) {
+		t.Error("translation matrix x point should be equals to a point")
+	}
+}
