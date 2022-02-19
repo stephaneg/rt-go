@@ -1,6 +1,7 @@
 package core
 
 import (
+	"math"
 	"testing"
 )
 
@@ -11,21 +12,21 @@ func TestFuzzyEqf64(t *testing.T) {
 	b = 2.0
 	c = 2.0 / 2.0
 	d = a + EPSILON
-	e = a - EPSILON
+	e = a + 2*EPSILON
 
 	if FuzzyEqf64(a, b) {
-		t.Error("expected a!=b")
+		t.Errorf("expected a!=b %v %v", a, b)
 	}
 
 	if !FuzzyEqf64(a, c) {
 		t.Error("expected a == c")
 	}
 
-	if FuzzyEqf64(a, d) {
-		t.Error("expected a != d")
+	if !FuzzyEqf64(a, d) {
+		t.Errorf("expected %v == %v ", a, d)
 	}
 
-	if !FuzzyEqf64(a, e) {
-		t.Error("expected a == e")
+	if FuzzyEqf64(a, e) {
+		t.Errorf("expected %v != %v, delta is %v", a, e, math.Abs(a-e))
 	}
 }
