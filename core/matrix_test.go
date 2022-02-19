@@ -369,3 +369,81 @@ func TestInverseMatrix4(t *testing.T) {
 	}
 
 }
+
+func TestInverseAnotherMatrix4(t *testing.T) {
+	a := NewMatrix4From([4][4]float64{
+		{8.0, -5.0, 9.0, 2.0},
+		{7.0, 5.0, 6.0, 1.0},
+		{-6.0, 0.0, 9.0, 6.0},
+		{-3.0, 0.0, -9.0, -4.0},
+	})
+
+	b := NewMatrix4From([4][4]float64{
+		{-0.15385, -0.15385, -0.28205, -0.53846},
+		{-0.07692, 0.12308, 0.02564, 0.03077},
+		{0.35897, 0.35897, 0.43590, 0.92308},
+		{-0.69231, -0.69231, -0.76923, -1.92308},
+	})
+
+	res, err := a.Inverse()
+
+	if err != nil {
+		t.Error("this matrix should be invertible")
+	}
+
+	if b.EqualMatrix(res) {
+		t.Errorf("inverse matrice %v is not equal to the expected one %v ", res, b)
+	}
+
+}
+
+func TestInverseThirdMatrix4(t *testing.T) {
+	a := NewMatrix4From([4][4]float64{
+		{9.0, 3.0, 0.0, 9.0},
+		{-5.0, -2.0, -6.0, -3.0},
+		{-4.0, 9.0, 6.0, 4.0},
+		{-7.0, 6.0, 6.0, 2.0},
+	})
+
+	b := NewMatrix4From([4][4]float64{
+		{-0.04074, -0.07778, 0.14444, -0.22222},
+		{-0.07778, 0.03333, 0.36667, -0.33333},
+		{-0.02901, -0.14630, -0.10926, 0.12963},
+		{0.17778, 0.06667, -0.26667, 0.33333},
+	})
+
+	res, err := a.Inverse()
+
+	if err != nil {
+		t.Error("this matrix should be invertible")
+	}
+
+	if b.EqualMatrix(res) {
+		t.Errorf("inverse matrice %v is not equal to the expected one %v ", res, b)
+	}
+
+}
+
+func TestMultiplyMatrix4ByInverse(t *testing.T) {
+	a := NewMatrix4From([4][4]float64{
+		{3.0, -9.0, 7.0, 3.0},
+		{3.0, -8.0, 2.0, -9.0},
+		{-4.0, 4.0, 4.0, 1.0},
+		{-6.0, 5.0, -1.0, 1.0},
+	})
+
+	b := NewMatrix4From([4][4]float64{
+		{8.0, 2.0, 2.0, 2.0},
+		{3.0, -1.0, 7.0, 0.0},
+		{7.0, 0.0, 5.0, 4.0},
+		{6.0, -2.0, 0.0, 5.0},
+	})
+
+	c := a.DotMatrix(b)
+	inv, _ := b.Inverse()
+	d := c.DotMatrix(inv)
+
+	if !a.EqualMatrix(d) {
+		t.Error("A * B * inverse(B) should be equal to A")
+	}
+}
