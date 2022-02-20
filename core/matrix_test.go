@@ -449,7 +449,7 @@ func TestMultiplyMatrix4ByInverse(t *testing.T) {
 }
 
 func TestMultiplyByTranslationMatrix(t *testing.T) {
-	m := TranslationMatrix(5.0, -3.0, 2.0)
+	m := Translation(5.0, -3.0, 2.0)
 
 	v := NewVector(-3, 4, 5)
 
@@ -461,7 +461,7 @@ func TestMultiplyByTranslationMatrix(t *testing.T) {
 }
 
 func TestMultiplyPointByTranslationMatrix(t *testing.T) {
-	m := TranslationMatrix(5.0, -3.0, 2.0)
+	m := Translation(5.0, -3.0, 2.0)
 	v := NewPoint(-3, 4, 5)
 	expected := NewPoint(2, 1, 7)
 
@@ -474,7 +474,7 @@ func TestMultiplyPointByTranslationMatrix(t *testing.T) {
 
 func TestMultiplyPointByInvTranslationMatrix(t *testing.T) {
 
-	m := TranslationMatrix(5.0, -3.0, 2.0)
+	m := Translation(5.0, -3.0, 2.0)
 	inv, _ := m.Inverse()
 
 	v := NewPoint(-3, 4, 5)
