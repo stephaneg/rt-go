@@ -10,7 +10,7 @@ func TestFuzzyEqf64(t *testing.T) {
 
 	a = 1.0
 	b = 2.0
-	c = 2.0 / 2.0
+	c = 2.0 *1. / 2.0
 	d = a + EPSILON
 	e = a + 2*EPSILON
 

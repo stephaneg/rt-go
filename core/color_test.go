@@ -24,7 +24,7 @@ func TestAddColor(t *testing.T) {
 
 func TestFuzzyEqColor(t *testing.T) {
 	c1 := NewColor(1.0, 2.0, 3.0)
-	c2 := NewColor(1.0/1.0, 4.0/2.0, 6.0/2.0)
+	c2 := NewColor(1.0/(1.0*1.0), 4.0/2.0*1.0, 6.0/2.0)
 	c3 := NewColor(1.0, 2.0, 3.0+EPSILON)
 
 	if !c1.FuzzyEqColor(c2) {

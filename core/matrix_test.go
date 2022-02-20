@@ -71,7 +71,7 @@ func TestDotlMatrix4(t *testing.T) {
 	}
 }
 
-func TestMatrix4xTuple(t *testing.T) {
+func TestMatrixDotTuple(t *testing.T) {
 	a := NewMatrix4From([4][4]float64{
 		{1.0, 2.0, 3.0, 4.0},
 		{2.0, 4.0, 4.0, 2.0},
@@ -449,12 +449,7 @@ func TestMultiplyMatrix4ByInverse(t *testing.T) {
 }
 
 func TestMultiplyByTranslationMatrix(t *testing.T) {
-	m := NewMatrix4From([4][4]float64{
-		{1.0, 0.0, 0.0, 5.0},
-		{0.0, 1.0, 0.0, -3.0},
-		{0.0, 0.0, 1.0, 2.0},
-		{0.0, 0.0, 0.0, 1.0},
-	})
+	m := TranslationMatrix(5.0, -3.0, 2.0)
 
 	v := NewVector(-3, 4, 5)
 
@@ -466,13 +461,7 @@ func TestMultiplyByTranslationMatrix(t *testing.T) {
 }
 
 func TestMultiplyPointByTranslationMatrix(t *testing.T) {
-	m := NewMatrix4From([4][4]float64{
-		{1.0, 0.0, 0.0, 5.0},
-		{0.0, 1.0, 0.0, -3.0},
-		{0.0, 0.0, 1.0, 2.0},
-		{0.0, 0.0, 0.0, 1.0},
-	})
-
+	m := TranslationMatrix(5.0, -3.0, 2.0)
 	v := NewPoint(-3, 4, 5)
 	expected := NewPoint(2, 1, 7)
 
@@ -484,13 +473,8 @@ func TestMultiplyPointByTranslationMatrix(t *testing.T) {
 }
 
 func TestMultiplyPointByInvTranslationMatrix(t *testing.T) {
-	m := NewMatrix4From([4][4]float64{
-		{1.0, 0.0, 0.0, 5.0},
-		{0.0, 1.0, 0.0, -3.0},
-		{0.0, 0.0, 1.0, 2.0},
-		{0.0, 0.0, 0.0, 1.0},
-	})
 
+	m := TranslationMatrix(5.0, -3.0, 2.0)
 	inv, _ := m.Inverse()
 
 	v := NewPoint(-3, 4, 5)
@@ -500,5 +484,42 @@ func TestMultiplyPointByInvTranslationMatrix(t *testing.T) {
 
 	if !res.EqualTuple(expected) {
 		t.Error("translation matrix x point should be equals to a point")
+	}
+}
+
+func TestScaleMatrixToPoint(t *testing.T) {
+	m := ScaleMatrix(2.0, 3.0, 4.0)
+	p := NewPoint(-4.0, 6.0, 8.0)
+
+	res := m.DotTuple(p)
+	expected := NewPoint(-8.0, 18.0, 32.0)
+
+	if !res.EqualTuple(expected) {
+		t.Errorf("scale matrix : expected %v, get %v", expected, res)
+	}
+}
+
+func TestScaleMatrixToVector(t *testing.T) {
+	m := ScaleMatrix(2.0, 3.0, 4.0)
+	p := NewVector(-4.0, 6.0, 8.0)
+
+	res := m.DotTuple(p)
+	expected := NewVector(-8.0, 18.0, 32.0)
+
+	if !res.EqualTuple(expected) {
+		t.Errorf("scale matrix : expected %v, get %v", expected, res)
+	}
+}
+
+func TestInversedScaleMatrixToVector(t *testing.T) {
+	m := ScaleMatrix(2.0, 3.0, 4.0)
+	inv, _ := m.Inverse()
+	p := NewVector(-4.0, 6.0, 8.0)
+
+	res := inv.DotTuple(p)
+	expected := NewVector(-2.0, 2.0, 2.0)
+
+	if !res.EqualTuple(expected) {
+		t.Errorf("scale matrix : expected %v, get %v", expected, res)
 	}
 }

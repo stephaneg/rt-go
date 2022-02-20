@@ -45,7 +45,7 @@ func (c *Canvas) ToPPM() string {
 
 		for _, color := range colors {
 			str := fmt.Sprintf(" %d", color)
-			fmt.Fprintf(&b, str)
+			fmt.Fprint(&b, str)
 			row_size += len(str)
 
 			if row_size > 70 {
