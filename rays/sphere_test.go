@@ -73,12 +73,12 @@ func TestIntersectRayInsideASphere(t *testing.T) {
 		t.Errorf("error in the number of intersection points, expected 2, get %v", len(itxs))
 	}
 
-	if !core.FuzzyEqf64(itxs[0], 1.0) {
-		t.Errorf("expected 1.0 for the first point, get %v", itxs[0])
+	if !core.FuzzyEqf64(itxs[0], -1.0) {
+		t.Errorf("expected -1.0 for the first point, get %v", itxs[0])
 	}
 
-	if !core.FuzzyEqf64(itxs[1], -1.0) {
-		t.Errorf("expected -1.0 for the first point, get %v", itxs[1])
+	if !core.FuzzyEqf64(itxs[1], 1.0) {
+		t.Errorf("expected 1.0 for the first point, get %v", itxs[1])
 	}
 }
 

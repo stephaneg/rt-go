@@ -85,3 +85,7 @@ func (t Tuple) Magintude() float64 {
 func (t Tuple) Normalize() Tuple {
 	return t.DivTuple(t.Magintude())
 }
+
+func (t Tuple) Dot(other Tuple) float64 {
+	return t.X()*other.X() + t.Y()*other.Y() + t.Z()*other.Z() + t.W()*other.W()
+}

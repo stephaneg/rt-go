@@ -26,3 +26,15 @@ func TestAddTuple(t *testing.T) {
 	}
 
 }
+
+func TestDot(t *testing.T) {
+	a := NewVector(1.0, 2.0, 3.0)
+	b := NewVector(2.0, 3.0, 4.0)
+
+	res := a.Dot(b)
+
+	if !FuzzyEqf64(res, 20.0) {
+		t.Errorf("expected 20.0, get %v", res)
+	}
+
+}
